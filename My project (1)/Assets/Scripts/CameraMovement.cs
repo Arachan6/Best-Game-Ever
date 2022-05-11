@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public Transform Player;
+    public Transform target;
+    public Vector3 offset;
+    public float smoothFactor = 10;
 
     void Update()
     {
-        if (Player != null)
-        {
-            Vector3 position = transform.position;
-            position.x = Player.position.x;
-            position.y = Player.position.y+1;
-            transform.position = position;
-        }
+        Follow();
+    }
+
+    void Follow() {
+        Vector3 targetPosition = target.position + offset;
+        Vector3 smoothPosition = Vector3.Lerp(transform.position, targetPosition, smoothFactor * Time.fixedDeltaTime);
+        transform.position = targetPosition;
     }
 }
