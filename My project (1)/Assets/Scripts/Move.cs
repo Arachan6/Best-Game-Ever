@@ -6,9 +6,12 @@ public class Move : MonoBehaviour
 {
     public float Speed;
     public float JumpForce;
-    private bool facingRight = true;
+
+    private bool IsJumping = false;
+    private bool CanJump = true;
+    private bool FacingRight = true;
     private float moveX;
-    private bool Grounded;
+    private bool Grounded = true;
     private float LastShoot;
     private float timer;
 
@@ -30,20 +33,31 @@ public class Move : MonoBehaviour
 
         AnimatePlayer();
 
+        if (Input.GetKeyDown(KeyCode.W) && CanJump)
+        {
+            IsJumping = true;
+        }
+
     }
 
     private void FixedUpdate()
     {
         Movement();
 
-        Jump();
+        Flip();
+
+        if(IsJumping && CanJump)
+        {
+            Jump();
+        }
 
     }
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-            rb.AddForce(Vector2.up * JumpForce); 
+        rb.AddForce(Vector2.up * JumpForce);
+        CanJump = false;
+
     }
 
     private void AnimatePlayer() {
@@ -69,29 +83,25 @@ public class Move : MonoBehaviour
         }
 
 
-        // Ver Flip()
-        if (moveX > 0 && !facingRight)
-        {
-            Flip();
-        }
-
-        else if (moveX < 0 && facingRight)
-        {
-            Flip();
-        }
-        
     }
 
     private void Flip()
     {
-        // Necesario para que si hay un objeto pegado al player, el objeto se mueva tambien
-        facingRight = !facingRight;
-
-        transform.Rotate(0f, 180f, 0f);
+        if ((moveX < 0 && FacingRight) || (moveX > 0 && !FacingRight))
+        {
+            FacingRight = !FacingRight;
+            transform.Rotate(new Vector3(0, 180, 0));
+        }
     }
 
     private void Movement()
     {
         rb.velocity = new Vector2(moveX * Speed, rb.velocity.y);
+    }
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        print("hola");
+        CanJump = true;
+        IsJumping = false;
     }
 }
