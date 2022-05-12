@@ -7,71 +7,75 @@ public class Move : MonoBehaviour
     public float Speed;
     public float JumpForce;
     private bool facingRight = true;
-    private float movimientoX;
+    private float moveX;
     private bool Grounded;
     private float LastShoot;
     private float timer;
 
-    private Rigidbody2D Rigidbody2D;
+    private Rigidbody2D rb;
     private Animator Animator;
 
     private void Start()
     {
-        Rigidbody2D = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
         Animator.SetBool("running", false);
+        moveX = Input.GetAxisRaw("Horizontal");
+
     }
 
     private void Update()
     {
-        AnimatePlayer();
+        moveX = Input.GetAxisRaw("Horizontal");
 
-        Jump();
+        AnimatePlayer();
 
     }
 
     private void FixedUpdate()
     {
         Movement();
+
+        Jump();
+
     }
 
     private void Jump()
     {
         if (Input.GetKeyDown(KeyCode.W))
-            Rigidbody2D.AddForce(Vector2.up * JumpForce); 
+            rb.AddForce(Vector2.up * JumpForce); 
     }
 
     private void AnimatePlayer() {
 
-        movimientoX = Input.GetAxisRaw("Horizontal");
 
         //Animaciones
-        if (movimientoX > 0)
+        if (moveX > 0)
         {
             Animator.SetBool("running", true);
             timer = Time.time;
            
         }
 
-        else if (movimientoX < 0)
+        else if (moveX < 0)
         {
             Animator.SetBool("running", true);
             timer = Time.time;
         }
 
-        else if (movimientoX == 0 && Time.time - timer > 0.1f)
+        else if (moveX == 0 && Time.time - timer > 0.1f)
         {
             Animator.SetBool("running", false);
         }
 
 
-        // rotar al pj
-        if (movimientoX > 0 && !facingRight)
+        // Ver Flip()
+        if (moveX > 0 && !facingRight)
         {
             Flip();
         }
 
-        else if (movimientoX < 0 && facingRight)
+        else if (moveX < 0 && facingRight)
         {
             Flip();
         }
@@ -80,7 +84,7 @@ public class Move : MonoBehaviour
 
     private void Flip()
     {
-        // Necesario para que las skills que salen de player tambien roten
+        // Necesario para que si hay un objeto pegado al player, el objeto se mueva tambien
         facingRight = !facingRight;
 
         transform.Rotate(0f, 180f, 0f);
@@ -88,6 +92,6 @@ public class Move : MonoBehaviour
 
     private void Movement()
     {
-        Rigidbody2D.velocity = new Vector2(movimientoX * Speed, Rigidbody2D.velocity.y);
+        rb.velocity = new Vector2(moveX * Speed, rb.velocity.y);
     }
 }
