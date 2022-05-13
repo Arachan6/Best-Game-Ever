@@ -9,7 +9,7 @@ public class Move : MonoBehaviour
 
     private bool IsJumping = false;
     private bool CanJump = true;
-    private bool FacingRight = true;
+    public bool FacingRight = true;
     private float moveX;
     private bool Grounded = true;
     private float LastShoot;
