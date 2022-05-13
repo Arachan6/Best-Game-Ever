@@ -5,7 +5,7 @@ using UnityEngine;
 public class RockMovement : MonoBehaviour
 {
     public GameObject player;
-    public float rockSpeed = 2f;
+    public float rockSpeed;
     private Rigidbody2D rb;
     void Start()
     {
