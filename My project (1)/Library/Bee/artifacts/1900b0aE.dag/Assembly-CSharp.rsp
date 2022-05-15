@@ -369,6 +369,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/Camera/CameraMovement.cs"
 "Assets/Scripts/Camera/Parallax.cs"
+"Assets/Scripts/Enemies/Slime/Behaviour.cs"
 "Assets/Scripts/Player/Move.cs"
 "Assets/Scripts/Player/PlayerAbilities.cs"
 "Assets/Scripts/Player/RockMovement.cs"
