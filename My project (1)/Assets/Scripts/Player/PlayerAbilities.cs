@@ -6,6 +6,8 @@ public class PlayerAbilities : MonoBehaviour
 {
     public GameObject rock;
     public GameObject rockFirePoint;
+    private float cooldownTime = 1f;
+    private float nextCastTime = 0;
     private bool castThrowRock = false;
     void Start()
     {
@@ -15,9 +17,14 @@ public class PlayerAbilities : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Time.time > nextCastTime)
+
         {
-            castThrowRock = true;
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                castThrowRock = true;
+                nextCastTime = Time.time + cooldownTime;
+            }
         }
 
     }
